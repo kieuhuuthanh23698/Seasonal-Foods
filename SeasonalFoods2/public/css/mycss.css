@@ -1,0 +1,73 @@
+.br-green
+{
+	background-color: #67be49;
+	width: 100%;
+	height: 680px;
+	text-align: center;
+	
+}
+.box-white
+{
+	background-color: white;
+	width: 400px;
+	height: 282px;
+	margin: auto;
+	margin-top: 18%;
+	
+}
+.parent{
+    
+}
+.child{
+    /*display: table-cell;*/
+    vertical-align: middle;
+    padding: 40px;
+}
+.input-t
+{
+	padding: 10px;
+	height: 50px;
+	border-radius: 0px;
+	background-color: #f2f2f2;
+	border: 0px;
+	font-size: 14px;
+}
+.martop
+{
+	margin-top: 15px;
+}
+.btngreen
+{
+	background-color: #67be49;
+	color: white;
+}
+.spantext
+{
+	color: #67be49;
+}
+.textstyle
+{
+	margin-top: 10px;
+	font-size: 12px;
+	color: #ccc;
+}
+.outer {
+  display: table;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.inner {
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  /*whatever width you want*/
+}
