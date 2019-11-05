@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TestAPI</string>
+    <string name="apiv4">172.19.200.232:8080</string>
+</resources>

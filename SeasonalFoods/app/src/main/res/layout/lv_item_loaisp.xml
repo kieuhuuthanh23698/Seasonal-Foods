@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:weightSum="10"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/Icon"
+        android:layout_weight="1"
+        android:text=">"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:paddingLeft="5dp"
+        android:textAlignment="textStart"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/lvItemLoaiSP"
+        android:text="Trái cây"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_weight="9"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
