@@ -41,7 +41,7 @@ public class Request extends AsyncTask<String,Void, String> {
             HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
             httpURLConnection.setRequestMethod("POST");
             //urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            //httpURLConnection.setConnectTimeout(1500);
+            httpURLConnection.setConnectTimeout(5000);
             httpURLConnection.setDoInput(true);
             httpURLConnection.setDoOutput(true);
             urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
