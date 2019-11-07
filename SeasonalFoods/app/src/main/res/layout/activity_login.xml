@@ -6,69 +6,68 @@
     android:layout_height="match_parent"
     tools:context=".Activity.loginActivity">
 
-    <!--<TextView-->
-        <!--android:id="@+id/txtv_dn"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Tên Đăng Nhập"-->
-        <!--android:textColor="#000000"-->
-        <!--android:textSize="25dp"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="0.047"-->
-        <!--app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--app:layout_constraintRight_toRightOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:layout_constraintVertical_bias="0.05" />-->
+    <TextView
+        android:id="@+id/txtv_dn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên Đăng Nhập"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.047"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.05" />
 
-    <!--<EditText-->
-        <!--android:id="@+id/txt_dn"-->
-        <!--android:layout_width="390dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_marginTop="24dp"-->
-        <!--android:background="@drawable/rounded_edittext"-->
-        <!--android:ems="10"-->
-        <!--android:hint="Tên Đăng Nhập"-->
-        <!--android:inputType="textPersonName"-->
-        <!--android:paddingLeft="20dp"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/txtv_dn"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/txtv_dn" />-->
+    <EditText
+        android:id="@+id/txt_dn"
+        android:layout_width="390dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_edittext"
+        android:ems="10"
+        android:hint="Tên Đăng Nhập"
+        android:inputType="textPersonName"
+        android:paddingLeft="20dp"
+        app:layout_constraintStart_toStartOf="@+id/txtv_dn"
+        app:layout_constraintTop_toBottomOf="@+id/txtv_dn" />
 
-    <!--<TextView-->
-        <!--android:id="@+id/txtv_mk"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="24dp"-->
-        <!--android:text="Mật Khẩu"-->
-        <!--android:textColor="#000000"-->
-        <!--android:textSize="25dp"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/txt_dn"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/txt_dn" />-->
+    <TextView
+        android:id="@+id/txtv_mk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Mật Khẩu"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        app:layout_constraintStart_toStartOf="@+id/txt_dn"
+        app:layout_constraintTop_toBottomOf="@+id/txt_dn" />
 
-    <!--<EditText-->
-        <!--android:id="@+id/txt_mk"-->
-        <!--android:layout_width="390dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_marginTop="24dp"-->
-        <!--android:background="@drawable/rounded_edittext"-->
-        <!--android:ems="10"-->
-        <!--android:hint="Mật Khẩu"-->
-        <!--android:inputType="textPassword"-->
-        <!--android:paddingLeft="20dp"-->
-        <!--app:layout_constraintEnd_toEndOf="@+id/txt_name"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/txtv_mk"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/txtv_mk" />-->
+    <EditText
+        android:id="@+id/txt_mk"
+        android:layout_width="390dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_edittext"
+        android:ems="10"
+        android:hint="Mật Khẩu"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        app:layout_constraintStart_toStartOf="@+id/txtv_mk"
+        app:layout_constraintTop_toBottomOf="@+id/txtv_mk" />
 
-    <!--<Button-->
-        <!--android:id="@+id/button"-->
-        <!--android:layout_width="390dp"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:layout_marginTop="24dp"-->
-        <!--android:background="@drawable/boder_button"-->
-        <!--android:text="Đăng Nhập"-->
-        <!--android:textColor="#43057C"-->
-        <!--android:textSize="25dp"-->
-        <!--app:layout_constraintEnd_toEndOf="@+id/txt_mk"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/txt_mk"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/txt_mk" />-->
+    <Button
+        android:id="@+id/button"
+        android:layout_width="390dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/boder_button"
+        android:text="Đăng Nhập"
+        android:textColor="#43057C"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_mk"
+        app:layout_constraintStart_toStartOf="@+id/txt_mk"
+        app:layout_constraintTop_toBottomOf="@+id/txt_mk" />
 
 </android.support.constraint.ConstraintLayout>
