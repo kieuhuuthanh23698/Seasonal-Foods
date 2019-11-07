@@ -1,15 +1,23 @@
 package Objects;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class SanPham {
-    String maSP, tenSP, gia, giaKM;
+    String maSP, tenSP;
+    Double gia, giaKM;
     int hinhanh;
 
-    public SanPham(String maSP,String tenSP, String giaKM, String gia, int hinhanh) {
+    public SanPham(String maSP,String tenSP, Double giaKM, Double gia, int hinhanh) {
         this.maSP = maSP;
         this.tenSP = tenSP;
         this.gia = gia;
         this.giaKM = giaKM;
         this.hinhanh = hinhanh;
+    }
+
+    public String getMaSP() {
+        return maSP;
     }
 
     public String getTenSP() {
@@ -20,19 +28,19 @@ public class SanPham {
         this.tenSP = tenSP;
     }
 
-    public String getGia() {
+    public Double getGia() {
         return gia;
     }
 
-    public void setGia(String gia) {
+    public void setGia(Double gia) {
         this.gia = gia;
     }
 
-    public String getGiaKM() {
+    public Double getGiaKM() {
         return giaKM;
     }
 
-    public void setGiaKM(String giaKM) {
+    public void setGiaKM(Double giaKM) {
         this.giaKM = giaKM;
     }
 

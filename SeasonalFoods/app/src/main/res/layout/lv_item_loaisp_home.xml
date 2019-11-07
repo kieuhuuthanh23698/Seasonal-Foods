@@ -36,10 +36,17 @@
 
     <GridView
         android:focusable="true"
+        android:layout_marginTop="5dp"
         android:id="@+id/gvSanPham"
+
+        android:horizontalSpacing="4dp"
+        android:verticalSpacing="4dp"
+        android:divider="@android:color/black"
+        android:dividerHeight="4dp"
+
         android:layout_width="match_parent"
-        android:layout_height="1000dp"
-        android:numColumns="2"></GridView>
+        android:layout_height="wrap_content"
+        android:numColumns="2"/>
 
 
 </LinearLayout>

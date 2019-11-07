@@ -39,10 +39,12 @@
                     <TextView
                         android:layout_width="65dip"
                         android:layout_height="65dip"
+                        android:layout_marginTop="-10dp"
                         android:layout_alignParentRight="true"
                         android:drawableLeft="@drawable/ic_shopping_cart_black_24dp" />
 
                     <TextView
+                        android:id="@+id/soLuongGioHang"
                         android:background="@drawable/background_txt_sl_giohang"
                         android:layout_alignParentRight="true"
                         android:layout_width="25dp"
@@ -71,6 +73,7 @@
                     android:drawableLeft="@drawable/ic_search_black_24dp"
                     android:drawablePadding="5dp"
                     android:gravity="center"
+                    android:focusableInTouchMode="false"
                     android:hint="Tìm kiếm"
                     android:textAlignment="textStart" />
 
@@ -78,6 +81,9 @@
 
             <ListView
                 android:id="@+id/loaiSanPham"
+                android:transcriptMode="alwaysScroll"
+                android:divider="@null"
+                android:dividerHeight="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -137,6 +143,7 @@
                     android:background="@color/colorBlack" />
 
                 <TextView
+                    android:id="@+id/trangchu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -146,6 +153,8 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/thongtintaikhoang"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -155,6 +164,8 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/doimatkhau"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -164,6 +175,8 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/donhang"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -173,6 +186,8 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/dangnhap"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -182,6 +197,8 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/dangxuat"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -191,6 +208,8 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/taotaikhoang"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

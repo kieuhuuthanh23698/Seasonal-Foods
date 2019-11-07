@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String arrayData = gson.toJson(list);
 
         Request req = new Request(arrayData);
-        req.execute("http://" + getResources().getString(R.string.apiv4) + txtURL.getText().toString());
+        //req.execute("http://" + getResources().getString(R.string.apiv4) + txtURL.getText().toString());
+        req.execute("http://" + txtURL.getText().toString());
         JSONArray result;
         String res = "";
         try {
