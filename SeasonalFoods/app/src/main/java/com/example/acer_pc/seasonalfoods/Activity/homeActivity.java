@@ -6,12 +6,12 @@ import Data.DAL;
 import Objects.CT_GioHang;
 import Objects.LoaiSanPham;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,7 +23,7 @@ import com.example.acer_pc.seasonalfoods.R;
 
 import java.util.ArrayList;
 
-public class homeActivity extends AppCompatActivity {
+public class homeActivity extends AppCompatActivity implements View.OnClickListener{
 
     DAL dal;
     String idKH;
@@ -108,13 +108,22 @@ public class homeActivity extends AppCompatActivity {
 
         final lvLoaiSP_Home adapHome = new lvLoaiSP_Home(homeActivity.this,lsLoaiSp);
         lvLoaiSanPham.setAdapter(adapHome);
+        lvLoaiSanPham.setFooterDividersEnabled(true);
+        lvLoaiSanPham.setHeaderDividersEnabled(true);
+        lvLoaiSanPham.setDividerHeight(5);
+
+
+
         lvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 lvLoaiSanPham.setSelection(i);
-//                drawerLayout.openDrawer(Gravity.NO_GRAVITY);
+                drawerLayout.closeDrawer(Gravity.START);
             }
         });
+        //CLOSE NAV MENU VÀ QUAY VỀ TRANG CHỦ
+        trangchu.setOnClickListener(this);
+
     }
 
     private void FindView() {
@@ -146,4 +155,35 @@ public class homeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.trangchu:
+                drawerLayout.closeDrawer(Gravity.START);
+                lvLoaiSanPham.setSelection(0);
+                break;
+            case R.id.thongtintaikhoang:
+                break;
+            case R.id.doimatkhau:
+                break;
+            case R.id.donhang:
+                break;
+            case R.id.dangnhap:
+                //chuyenActi(loginActivity.class);
+                break;
+            case R.id.dangxuat:
+                //xóa tài khoảng lưu trong local
+                //ẩn các view thongtintaikhoang, doimatkhau, donhong
+                //hien các view dangnhap, taotaikhoang
+                break;
+            case R.id.taotaikhoang:
+                break;
+        }
+    }
+
+    private void chuyenActi(Class<?> cls)
+    {
+        Intent intent = new Intent(this, cls);
+        startActivity(intent);
+    }
 }

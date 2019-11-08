@@ -13,8 +13,8 @@ public class REST_API {
 
     public String login(String username, String password){
         if(username.equals("123") && password.equals("123"))
-            return "KH01";
-        return "";
+            return "KH01";//true
+        return "";//false
     }
 
     public ArrayList<SanPham> getSanPham_TheoLoai(String idLoaiSP) {
