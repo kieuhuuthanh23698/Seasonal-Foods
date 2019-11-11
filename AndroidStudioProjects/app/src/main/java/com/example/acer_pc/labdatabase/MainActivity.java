@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
 
-        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true)
+
         actionBar.setLogo(R.drawable.contacts_icon);    //Icon muốn hiện thị
         actionBar.setDisplayUseLogoEnabled(true);
         //Kết nối database

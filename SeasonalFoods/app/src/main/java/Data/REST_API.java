@@ -12,9 +12,9 @@ public class REST_API {
     }
 
     public String login(String username, String password){
-        if(username.equals("123") && password.equals("123"))
+        //if(username.equals("123") && password.equals("123"))
             return "KH01";//true
-        return "";//false
+        //return "";//false
     }
 
     public ArrayList<SanPham> getSanPham_TheoLoai(String idLoaiSP) {
@@ -95,4 +95,36 @@ public class REST_API {
     }
 
 
+    public ArrayList<SanPham> search(String valueSearch) {
+        ArrayList<SanPham> listSP = new ArrayList<>();
+        SanPham item1 = new SanPham("1","Nước Ép Dâu",(double)23000,(double)25000, R.drawable.sp1);
+        listSP.add(item1);
+        SanPham item2 = new SanPham("2","Soài Thái",(double)12000,(double)15000, R.drawable.sp2);
+        listSP.add(item2);
+        SanPham item3 = new SanPham("3","Lựu",(double)16000,(double)17000, R.drawable.sp3);
+        listSP.add(item3);
+        SanPham item4 = new SanPham("4","Dâu Tây",(double)22000,(double)22000, R.drawable.sp4);
+        listSP.add(item4);
+        SanPham item5 = new SanPham("5","Táo",(double)22000,(double)22000, R.drawable.sp5);
+        listSP.add(item5);
+        SanPham item6 = new SanPham("6","Cherry",(double)23000,(double)24000, R.drawable.sp6);
+        listSP.add(item6);
+        SanPham item7 = new SanPham("7","Cải Thìa",(double)23000,(double)25000, R.drawable.sp1);
+        listSP.add(item7);
+        SanPham item8 = new SanPham("8","Bắp Cải",(double)12000,(double)15000, R.drawable.sp2);
+        listSP.add(item8);
+        SanPham item9 = new SanPham("9","Bí Ngô",(double)16000,(double)17000, R.drawable.sp3);
+        listSP.add(item9);
+        SanPham item10 = new SanPham("10","Cà Rốt",(double)22000,(double)22000, R.drawable.sp4);
+        listSP.add(item10);
+        SanPham item11 = new SanPham("11","Cà Chua",(double)22000,(double)22000, R.drawable.sp5);
+        listSP.add(item11);
+        SanPham item12 = new SanPham("12","Củ Dền",(double)23000,(double)24000, R.drawable.sp6);
+        listSP.add(item12);
+        return  listSP;
+    }
+
+    public boolean register(String name, int gender, String phone, String diachi, String email, String username, String password) {
+        return true;
+    }
 }

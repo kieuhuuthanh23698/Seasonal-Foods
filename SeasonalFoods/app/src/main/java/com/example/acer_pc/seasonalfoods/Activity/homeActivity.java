@@ -1,27 +1,63 @@
 package com.example.acer_pc.seasonalfoods.Activity;
 
+import Adapter.gridview_SP_Home;
 import Adapter.lvLoaiSP_Home;
 import Adapter.lvLoaiSP_Menu;
 import Data.DAL;
 import Objects.CT_GioHang;
 import Objects.LoaiSanPham;
+import Objects.SanPham;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.acer_pc.seasonalfoods.R;
 
 import java.util.ArrayList;
+
+
+class Helper {
+    public static void getListViewSize(ListView myListView) {
+        ListAdapter myListAdapter = myListView.getAdapter();
+        if (myListAdapter == null) {
+            //do nothing return null
+            return;
+        }
+        //set listAdapter in loop for getting final size
+        int totalHeight = 0;
+        for (int size = 0; size < myListAdapter.getCount(); size++) {
+            View listItem = myListAdapter.getView(size, null, myListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        //setting listview item in adapter
+        ViewGroup.LayoutParams params = myListView.getLayoutParams();
+        params.height = totalHeight + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1));
+        myListView.setLayoutParams(params);
+        // print height of adapter on log
+        Log.i("height of listItem:", String.valueOf(totalHeight));
+    }
+}
 
 public class homeActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -31,9 +67,18 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView trangchu, thongtintaikhoang, doimatkhau, donhangcuaban, dangnhap, dangxuat, taotaikhoang;
 
+    ScrollView scrollView;
+
     Toolbar toolbar;
     TextView soLuongGioHang;
+
+    EditText editSearch;
+    GridView resultSearch;
+    LinearLayout groupResultSearch;
+
     ListView lvLoaiSanPham, lvMenu;
+
+
     NavigationView navMenu;
     DrawerLayout drawerLayout;
     String[] lsLoaiSp_menu;
@@ -49,7 +94,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void ktraLogin(){
+    private void autoLogin(){
         //nếu có thông tin đăng nhập trong local thì request lên server
         String[] login = this.dal.getLogin();
         this.idKH = "";
@@ -61,20 +106,27 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
             {
                 //name và pass lưu trong local hợp lệ, đăng nhập từ động
                 //ẩn TEXTVIEW đăng nhập, tạo tài khoảng
-                thongtintaikhoang.setVisibility(View.VISIBLE);
-                doimatkhau.setVisibility(View.VISIBLE);
-                donhangcuaban.setVisibility(View.VISIBLE);
-                dangxuat.setVisibility(View.VISIBLE);
+                visible(true);
                 Toast.makeText(this,this.idKH, Toast.LENGTH_LONG).show();
             }
         }
         else
         {
             //nếu không có thì bắt buộc nhập
-            dangnhap.setVisibility(View.VISIBLE);
-            taotaikhoang.setVisibility(View.VISIBLE);
+            visible(false);
+            dal.logout();
             Toast.makeText(this,"KHÔNG TÌM THẤY THÔNG TIN LOGIN ĐÃ LƯU", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void visible(boolean visible){
+        thongtintaikhoang.setVisibility(visible ? View.VISIBLE : View.GONE);
+        doimatkhau.setVisibility(visible ? View.VISIBLE : View.GONE);
+        donhangcuaban.setVisibility(visible ? View.VISIBLE : View.GONE);
+        dangxuat.setVisibility(visible ? View.VISIBLE : View.GONE);
+        //----------------------------------------------------------------
+        dangnhap.setVisibility(!visible ? View.VISIBLE : View.GONE);
+        taotaikhoang.setVisibility(!visible ? View.VISIBLE : View.GONE);
     }
 
     private void loadGioHangs(){
@@ -101,16 +153,78 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         FindView();
         ActionBar();
         InitData();
-        ktraLogin();
+        autoLogin();
         loadGioHangs();
         lvLoaiSP_Menu adapMenu = new lvLoaiSP_Menu(homeActivity.this,lsLoaiSp_menu);
         lvMenu.setAdapter(adapMenu);
 
         final lvLoaiSP_Home adapHome = new lvLoaiSP_Home(homeActivity.this,lsLoaiSp);
         lvLoaiSanPham.setAdapter(adapHome);
-        lvLoaiSanPham.setFooterDividersEnabled(true);
-        lvLoaiSanPham.setHeaderDividersEnabled(true);
-        lvLoaiSanPham.setDividerHeight(5);
+        Helper.getListViewSize(lvLoaiSanPham);
+
+        editSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    Toast.makeText(getApplicationContext(), "Got the focus", Toast.LENGTH_LONG).show();
+                    editSearch.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            Toast.makeText(homeActivity.this, "Searching !", Toast.LENGTH_LONG).show();
+                            //request tìm kiếm kết quả
+                            ArrayList<SanPham> resultSanPham = dal.search(editSearch.getText().toString());
+                            //nếu có kết quả, hiện grid view KQ, ẩn list view SP
+                            if(resultSanPham != null)
+                            {
+                                lvLoaiSanPham.setVisibility(View.GONE);
+                                groupResultSearch.setVisibility(View.VISIBLE);
+                                //hiển thị kết quả lên gridview
+                                gridview_SP_Home adap = new gridview_SP_Home(homeActivity.this, resultSanPham);
+                                resultSearch.setAdapter(adap);
+                                ((BaseAdapter)resultSearch.getAdapter()).notifyDataSetChanged();
+
+                                int nRow = resultSanPham.size()/2 + (resultSanPham.size()%2 > 0 ? 1 : 0);
+                                View itemView = adap.getView(0,null, resultSearch);
+                                itemView.measure(0,0);
+                                int oneRowHeight = itemView.getMeasuredHeight() / 2;
+                                ViewGroup.LayoutParams params = resultSearch.getLayoutParams();
+                                params.height = oneRowHeight * nRow + 100;
+                                resultSearch.setLayoutParams(params);
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+                            if(editSearch.getText().toString().isEmpty())
+                            {
+                                //Hiện list view SP
+                                lvLoaiSanPham.setVisibility(View.VISIBLE);
+                                ((BaseAdapter)lvLoaiSanPham.getAdapter()).notifyDataSetChanged();
+                                //Ẩn và clear gridview kq
+                                groupResultSearch.setVisibility(View.GONE);
+                                gridview_SP_Home adap = (gridview_SP_Home) resultSearch.getAdapter();
+                                adap.clear();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "End Searching !", Toast.LENGTH_LONG).show();
+                    if(editSearch.getText().toString().isEmpty())
+                    {
+                        //Hiện list view SP
+                        lvLoaiSanPham.setVisibility(View.VISIBLE);
+                        ((BaseAdapter)lvLoaiSanPham.getAdapter()).notifyDataSetChanged();
+                        //Ẩn và clear gridview kq
+                        groupResultSearch.setVisibility(View.GONE);
+                        gridview_SP_Home adap = (gridview_SP_Home) resultSearch.getAdapter();
+                        adap.clear();
+                    }
+                }
+            }
+        });
 
 
 
@@ -123,12 +237,22 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         });
         //CLOSE NAV MENU VÀ QUAY VỀ TRANG CHỦ
         trangchu.setOnClickListener(this);
+        dangnhap.setOnClickListener(this);
+        dangxuat.setOnClickListener(this);
+        taotaikhoang.setOnClickListener(this);
 
     }
 
     private void FindView() {
+        scrollView = findViewById(R.id.scrollView);
+
         toolbar = findViewById(R.id.toolBar);
         soLuongGioHang = findViewById(R.id.soLuongGioHang);
+
+        editSearch = findViewById(R.id.valueSearch);
+        resultSearch = findViewById(R.id.resultSerach);
+        groupResultSearch = findViewById(R.id.groupResultSearch);
+
         lvLoaiSanPham = findViewById(R.id.loaiSanPham);
         lvMenu = findViewById(R.id.loaiSanPhamMenu);
         navMenu = findViewById(R.id.naviMenu);
@@ -169,14 +293,17 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.donhang:
                 break;
             case R.id.dangnhap:
-                //chuyenActi(loginActivity.class);
+                chuyenActi(loginActivity.class);
                 break;
             case R.id.dangxuat:
-                //xóa tài khoảng lưu trong local
-                //ẩn các view thongtintaikhoang, doimatkhau, donhong
-                //hien các view dangnhap, taotaikhoang
+                if(dal.logout())
+                {
+                    chuyenActi(loginActivity.class);
+                    visible(false);
+                }
                 break;
             case R.id.taotaikhoang:
+                chuyenActi(activity_register.class);
                 break;
         }
     }

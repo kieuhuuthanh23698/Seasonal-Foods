@@ -180,12 +180,4 @@ public class gridview_SP_Home extends ArrayAdapter<SanPham> {
         });
         return convertView;
     }
-
-//    private void resizeGridView(GridView gridView, int items, int columns) {
-//        ViewGroup.LayoutParams params = gridView.getLayoutParams();
-//        int oneRowHeight = gridView.getHeight();
-//        int rows = (int) (items / columns);
-//        params.height = oneRowHeight * rows;
-//        gridView.setLayoutParams(params);
-//    }
 }

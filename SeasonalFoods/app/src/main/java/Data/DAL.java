@@ -40,14 +40,56 @@ public class DAL {
         return login;
     }
 
-    //LOGIN TO SERVER
+    //REQUEST TO SERVER
     public String login(String username, String password){
-        return this.api.login(username,password);
+        String res = this.api.login(username,password);
+        if(!res.isEmpty())// khác "" là dn success
+        {
+            this.db = this.db_helper.getDb();
+            String[] login = new String[]{"",""};
+            String sql = "SELECT * FROM login";
+            Cursor cursor = db.rawQuery(sql ,null);
+            while (cursor.moveToNext()){
+                login[0] = cursor.getString(0);
+                login[1] = cursor.getString(1);
+            }
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name", login[0]);
+            contentValues.put("pass", login[1]);
+
+            if(login[0] == "") {
+                if(db.insert("login", null,contentValues) > 0)
+                    Toast.makeText(context, "Save login successful", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    Toast.makeText(context, "Save login failed", Toast.LENGTH_SHORT).show();
+                    return "";
+                }
+            }
+            else {
+                if(db.update("login", contentValues, "", null) > 0)
+                    Toast.makeText(context, "Save login successful", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    Toast.makeText(context, "Save login failed", Toast.LENGTH_SHORT).show();
+                    return "";
+                }
+            }
+        }
+        return res;
     }
 
-    public ArrayList<SanPham> getSanPham_TheoLoai(String idLoaiSP)
-    {
+    public ArrayList<SanPham> getSanPham_TheoLoai(String idLoaiSP) {
         return this.api.getSanPham_TheoLoai(idLoaiSP);
+    }
+
+    public ArrayList<SanPham> search(String valueSearch){
+        return this.api.search(valueSearch);
+    }
+
+    public boolean register(String name,int gender, String phone,String diachi,String email,String username,String password){
+        return this.api.register( name, gender, phone, diachi, email, username,password);
     }
 
     //QUERY FROM DATABASE LOCAL
@@ -114,6 +156,20 @@ public class DAL {
             soluong = cursor.getString(0);
         }
         return soluong;
+    }
+
+    public boolean logout(){
+        this.db = this.db_helper.getDb();
+        if(db.delete("login", "", null) > 0)
+        {
+            Toast.makeText(context, "Logout successful", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        else
+        {
+            Toast.makeText(context, "Logout failed", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
 }
