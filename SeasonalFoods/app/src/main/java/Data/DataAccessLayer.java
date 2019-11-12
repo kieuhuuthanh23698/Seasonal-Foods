@@ -16,16 +16,17 @@ import Objects.CT_GioHang;
 import Objects.LoaiSanPham;
 import Objects.SanPham;
 
-public class DAL {
+
+public class DataAccessLayer {
     DB_Helper db_helper;
     REST_API api;
     SQLiteDatabase db = null;
     Context context;
 
-    public DAL(Context context) {
+    public DataAccessLayer(Context context) {
         this.context = context;
         this.db_helper = new DB_Helper(context);
-        this.api = new REST_API();
+        api = new REST_API();
     }
 
     //LẤY THÔNG TIN LOGIN TỪ LOCAL
@@ -45,7 +46,7 @@ public class DAL {
 
     //REQUEST TO SERVER
     public String login(String username, String password){
-        String res = this.api.login(username,password);
+        String res = api.login(username,password);
         if(!res.isEmpty())// khác "" là dn success
         {
             this.db = this.db_helper.getDb();
@@ -83,16 +84,25 @@ public class DAL {
         return res;
     }
 
+<<<<<<< HEAD:SeasonalFoods/app/src/main/java/Data/DAL.java
     public ArrayList<LoaiSanPham> getFoods() throws InterruptedException, ExecutionException, JSONException {
         return this.api.getFoods();
     }
 
     public ArrayList<SanPham> search(String valueSearch) throws InterruptedException, ExecutionException, JSONException {
         return this.api.search(valueSearch);
+=======
+    public ArrayList<SanPham> getSanPham_TheoLoai(String idLoaiSP) {
+        return api.getSanPham_TheoLoai(idLoaiSP);
+    }
+
+    public ArrayList<SanPham> search(String valueSearch){
+        return api.search(valueSearch);
+>>>>>>> c9114e5b45092880c598a98581d460a92bee061b:SeasonalFoods/app/src/main/java/Data/DataAccessLayer.java
     }
 
     public boolean register(String name,int gender, String phone,String diachi,String email,String username,String password){
-        return this.api.register( name, gender, phone, diachi, email, username,password);
+        return api.register( name, gender, phone, diachi, email, username,password);
     }
 
     //QUERY FROM DATABASE LOCAL

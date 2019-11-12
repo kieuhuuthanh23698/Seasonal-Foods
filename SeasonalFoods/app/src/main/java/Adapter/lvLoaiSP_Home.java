@@ -21,7 +21,7 @@ import com.example.acer_pc.seasonalfoods.R;
 
 import java.util.ArrayList;
 
-import Data.DAL;
+import Data.DataAccessLayer;
 import Objects.LoaiSanPham;
 
 public class lvLoaiSP_Home extends ArrayAdapter<LoaiSanPham> {

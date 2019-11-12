@@ -3,7 +3,7 @@ package com.example.acer_pc.seasonalfoods.Activity;
 import Adapter.gridview_SP_Home;
 import Adapter.lvLoaiSP_Home;
 import Adapter.lvLoaiSP_Menu;
-import Data.DAL;
+import Data.DataAccessLayer;
 import Objects.CT_GioHang;
 import Objects.LoaiSanPham;
 import Objects.SanPham;

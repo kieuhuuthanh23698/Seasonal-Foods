@@ -15,10 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
-
 import com.example.acer_pc.seasonalfoods.R;
-
-import Data.DAL;
+import Data.DataAccessLayer;
+import Data.DB_Helper;
 
 import static android.text.InputType.TYPE_CLASS_TEXT;
 import static android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD;
@@ -59,7 +58,7 @@ public class loginActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    DAL dal =new DAL(loginActivity.this);
+                    DataAccessLayer dal =new DataAccessLayer(loginActivity.this);
                     if(dal.login(edtUsername.getText().toString(),edtPass.getText().toString()).isEmpty())
                     {
                         Toast.makeText(loginActivity.this,"Đăng nhập thất bại",Toast.LENGTH_LONG).show();
