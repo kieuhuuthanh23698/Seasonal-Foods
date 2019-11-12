@@ -8,7 +8,9 @@ import Objects.CT_GioHang;
 import Objects.LoaiSanPham;
 import Objects.SanPham;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +18,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,10 +34,16 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.acer_pc.seasonalfoods.R;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
+import static android.text.InputType.TYPE_CLASS_TEXT;
+import static android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD;
+import static android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
 
 
 class Helper {
@@ -81,17 +91,11 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
 
     NavigationView navMenu;
     DrawerLayout drawerLayout;
-    String[] lsLoaiSp_menu;
     ArrayList<LoaiSanPham> lsLoaiSp;
     
-    private void InitData(){
-        lsLoaiSp_menu = new String[]{"Trái Cây", "Rau Củ", "Thảo Dược Thiên Nhiên", "Hải Sản", "Sản Phẩm Khác"};
-        lsLoaiSp = new ArrayList<LoaiSanPham>();
-        for (int i = 0; i < lsLoaiSp_menu.length; i++)
-        {
-            LoaiSanPham item = new LoaiSanPham(lsLoaiSp_menu[i],dal.getSanPham_TheoLoai(i + ""));
-            lsLoaiSp.add(item);
-        }
+    private void InitData() throws InterruptedException, ExecutionException, JSONException {
+        lsLoaiSp = dal.getFoods();
+        Log.i("1", "InitData: " + lsLoaiSp.size());
     }
 
     private void autoLogin(){
@@ -145,22 +149,92 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         this.dal = new DAL(this);
         FindView();
         ActionBar();
-        InitData();
+        try {
+            InitData();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         autoLogin();
         loadGioHangs();
-        lvLoaiSP_Menu adapMenu = new lvLoaiSP_Menu(homeActivity.this,lsLoaiSp_menu);
+        lvLoaiSP_Menu adapMenu = new lvLoaiSP_Menu(homeActivity.this,lsLoaiSp);
         lvMenu.setAdapter(adapMenu);
 
-        final lvLoaiSP_Home adapHome = new lvLoaiSP_Home(homeActivity.this,lsLoaiSp);
+        lvLoaiSP_Home adapHome = new lvLoaiSP_Home(homeActivity.this,lsLoaiSp);
         lvLoaiSanPham.setAdapter(adapHome);
         Helper.getListViewSize(lvLoaiSanPham);
+        Log.i("3", "Load sản phẩm home !");
+
+
+        editSearch.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (editSearch.getCompoundDrawables()[2] != null) {
+                        if (event.getX() >= (editSearch.getRight() - editSearch.getLeft() - editSearch.getCompoundDrawables()[2].getBounds().width())) {
+
+                            Toast.makeText(homeActivity.this, "Searching !", Toast.LENGTH_LONG).show();
+                            //request tìm kiếm kết quả
+                            ArrayList<SanPham> resultSanPham = null;
+                            try {
+                                resultSanPham = dal.search(editSearch.getText().toString());
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            //nếu có kết quả, hiện grid view KQ, ẩn list view SP
+                            if (resultSanPham != null) {
+                                lvLoaiSanPham.setVisibility(View.GONE);
+                                groupResultSearch.setVisibility(View.VISIBLE);
+                                //hiển thị kết quả lên gridview
+                                gridview_SP_Home adap = new gridview_SP_Home(homeActivity.this, resultSanPham);
+                                resultSearch.setAdapter(adap);
+                                ((BaseAdapter) resultSearch.getAdapter()).notifyDataSetChanged();
+
+                                //config heght của gridview
+                                int nRow = resultSanPham.size() / 2 + (resultSanPham.size() % 2 > 0 ? 1 : 0);
+//                                View itemView = adap.getView(0, null, resultSearch);
+//                                itemView.measure(0, 0);
+//                                int oneRowHeight = itemView.getMeasuredHeight() / 2;
+//                                ViewGroup.LayoutParams params = resultSearch.getLayoutParams();
+//                                params.height = oneRowHeight * nRow + 100;
+//                                resultSearch.setLayoutParams(params);
+
+                                int oneRowHeight = 275 + (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, adap.getContext().getResources().getDisplayMetrics());
+                                Log.i("2", "height : " + oneRowHeight);
+                                ViewGroup.LayoutParams params = resultSearch.getLayoutParams();
+                                params.height = oneRowHeight * nRow + 1600;
+                                Log.i("2", "grid height : " + (oneRowHeight * nRow + 1600));
+                                resultSearch.setLayoutParams(params);
+
+
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        });
+
 
         editSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -172,29 +246,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
                         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
                         @Override
-                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            Toast.makeText(homeActivity.this, "Searching !", Toast.LENGTH_LONG).show();
-                            //request tìm kiếm kết quả
-                            ArrayList<SanPham> resultSanPham = dal.search(editSearch.getText().toString());
-                            //nếu có kết quả, hiện grid view KQ, ẩn list view SP
-                            if(resultSanPham != null)
-                            {
-                                lvLoaiSanPham.setVisibility(View.GONE);
-                                groupResultSearch.setVisibility(View.VISIBLE);
-                                //hiển thị kết quả lên gridview
-                                gridview_SP_Home adap = new gridview_SP_Home(homeActivity.this, resultSanPham);
-                                resultSearch.setAdapter(adap);
-                                ((BaseAdapter)resultSearch.getAdapter()).notifyDataSetChanged();
-
-                                int nRow = resultSanPham.size()/2 + (resultSanPham.size()%2 > 0 ? 1 : 0);
-                                View itemView = adap.getView(0,null, resultSearch);
-                                itemView.measure(0,0);
-                                int oneRowHeight = itemView.getMeasuredHeight() / 2;
-                                ViewGroup.LayoutParams params = resultSearch.getLayoutParams();
-                                params.height = oneRowHeight * nRow + 100;
-                                resultSearch.setLayoutParams(params);
-                            }
-                        }
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
                         @Override
                         public void afterTextChanged(Editable editable) {
@@ -225,8 +277,6 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-
-
 
         lvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

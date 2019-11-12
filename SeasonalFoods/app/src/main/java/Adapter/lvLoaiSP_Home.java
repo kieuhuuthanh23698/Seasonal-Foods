@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,14 +43,16 @@ public class lvLoaiSP_Home extends ArrayAdapter<LoaiSanPham> {
 
         //resize gridview
         int nRow = loaiSP.getListSP().size()/2 + (loaiSP.getListSP().size()%2 > 0 ? 1 : 0);
-        View itemView = adap.getView(0,null, gridViewLoaiSP);
-        itemView.measure(0,0);
-        int oneRowHeight = itemView.getMeasuredHeight() / 2;
+        Log.i("2", loaiSP.getTenLoaiSP() + "|" + nRow);
+//        View itemView = adap.getView(0,null, gridViewLoaiSP);
+//        itemView.measure(0,0);
+//        int oneRowHeight = itemView.getMeasuredHeight() / 2;
+        int oneRowHeight = 275 + (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,getContext().getResources().getDisplayMetrics());
+        Log.i("2", "height : " + oneRowHeight);
         ViewGroup.LayoutParams params = gridViewLoaiSP.getLayoutParams();
-        params.height = oneRowHeight * nRow + 50;
+        params.height = oneRowHeight * nRow + 1600;
+        Log.i("2", "grid height : " + (oneRowHeight * nRow + 1600));
         gridViewLoaiSP.setLayoutParams(params);
-
         return convertView;
     }
 }
-

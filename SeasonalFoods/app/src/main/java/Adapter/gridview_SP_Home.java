@@ -2,10 +2,12 @@ package Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,11 +71,8 @@ public class gridview_SP_Home extends ArrayAdapter<SanPham> {
         //              SET VALUE CHO CÁC CHILD VIEW
 
         ImageView imageView = convertView.findViewById(R.id.gvItem_img);
-        imageView.setImageResource(item.getHinhanh());
-
+        imageView.setImageBitmap(item.getHinhanh());
         TextView txtTenSP , txtGia, txtGiaKM, txtSoLuong;
-
-
 
         int phanTramKM = (int)( ( ( item.getGia() - item.getGiaKM() ) /item.getGia() ) *100);
         if(phanTramKM > 0)
@@ -90,7 +89,6 @@ public class gridview_SP_Home extends ArrayAdapter<SanPham> {
             txtGia.setText(NumberFormat.getNumberInstance(Locale.US).format(item.getGia()) + " đ");
             txtGia.setPaintFlags(txtGia.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
-
 
 
         txtTenSP = convertView.findViewById(R.id.gvItem_name);

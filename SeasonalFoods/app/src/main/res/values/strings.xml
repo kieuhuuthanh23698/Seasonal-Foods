@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Seasonal Foods</string>
+    <string name="ipv4">172.19.201.2:8080</string>
 </resources>

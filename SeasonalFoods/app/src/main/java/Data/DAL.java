@@ -6,8 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
 import java.net.PortUnreachableException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import Objects.CT_GioHang;
 import Objects.LoaiSanPham;
@@ -80,11 +83,11 @@ public class DAL {
         return res;
     }
 
-    public ArrayList<SanPham> getSanPham_TheoLoai(String idLoaiSP) {
-        return this.api.getSanPham_TheoLoai(idLoaiSP);
+    public ArrayList<LoaiSanPham> getFoods() throws InterruptedException, ExecutionException, JSONException {
+        return this.api.getFoods();
     }
 
-    public ArrayList<SanPham> search(String valueSearch){
+    public ArrayList<SanPham> search(String valueSearch) throws InterruptedException, ExecutionException, JSONException {
         return this.api.search(valueSearch);
     }
 
