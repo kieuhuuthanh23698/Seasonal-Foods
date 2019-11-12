@@ -13,16 +13,17 @@ import Objects.CT_GioHang;
 import Objects.LoaiSanPham;
 import Objects.SanPham;
 
-public class DAL {
+
+public class DataAccessLayer {
     DB_Helper db_helper;
     REST_API api;
     SQLiteDatabase db = null;
     Context context;
 
-    public DAL(Context context) {
+    public DataAccessLayer(Context context) {
         this.context = context;
         this.db_helper = new DB_Helper(context);
-        this.api = new REST_API();
+        api = new REST_API();
     }
 
     //LẤY THÔNG TIN LOGIN TỪ LOCAL
@@ -42,7 +43,7 @@ public class DAL {
 
     //REQUEST TO SERVER
     public String login(String username, String password){
-        String res = this.api.login(username,password);
+        String res = api.login(username,password);
         if(!res.isEmpty())// khác "" là dn success
         {
             this.db = this.db_helper.getDb();
@@ -81,15 +82,15 @@ public class DAL {
     }
 
     public ArrayList<SanPham> getSanPham_TheoLoai(String idLoaiSP) {
-        return this.api.getSanPham_TheoLoai(idLoaiSP);
+        return api.getSanPham_TheoLoai(idLoaiSP);
     }
 
     public ArrayList<SanPham> search(String valueSearch){
-        return this.api.search(valueSearch);
+        return api.search(valueSearch);
     }
 
     public boolean register(String name,int gender, String phone,String diachi,String email,String username,String password){
-        return this.api.register( name, gender, phone, diachi, email, username,password);
+        return api.register( name, gender, phone, diachi, email, username,password);
     }
 
     //QUERY FROM DATABASE LOCAL

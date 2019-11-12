@@ -24,7 +24,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import Data.DAL;
+import Data.DataAccessLayer;
 import Objects.SanPham;
 
 public class gridview_SP_Home extends ArrayAdapter<SanPham> {
